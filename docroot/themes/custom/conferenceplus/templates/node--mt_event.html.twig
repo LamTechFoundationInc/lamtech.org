@@ -1,0 +1,62 @@
+{#
+/**
+ * @file
+ * Conference+s's theme implementation to display a Event node.
+ */
+#}
+
+{% extends "node.html.twig" %}
+{% block node_side %}
+  {% if content.field_mt_evn_date|render or content.field_mt_evn_place|render or content.field_mt_evn_location|render %}
+    <div class="node__side">
+      {% if content.field_mt_evn_date|render or content.field_mt_evn_place|render %}
+        <div class="event__info">
+          {% if content.field_mt_evn_date|render %}
+            <div class="event__info-item">
+              <span class="date-container">
+                <span class="date">
+                  <span class="date-month">{{ node.field_mt_evn_date.value|date('M') }}</span>
+                  <span class="date-day">{{ node.field_mt_evn_date.value|date('d') }}</span>
+                </span>
+              </span>
+            </div>
+            <div class="event__info-item">{{ content.field_mt_evn_date }}</div>
+          {% endif %}
+          {% if content.field_mt_evn_place|render %}
+            <div class="event__info-item"><i class="fas fa-map-marker pr-1"></i> {{ node.field_mt_evn_place.value }}</div>
+          {% endif %}
+          {% if content.field_mt_evn_location|render %}
+            <div class="event__info-item"><a id="mt-get-directions-side-button" class="mt-3" href="#">{% trans %}Get Directions{% endtrans %}</a></div>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
+{% endblock %}
+{% block meta_area %}
+  {{ title_prefix }}
+  {% if not page %}
+    <h2{{ title_attributes.addClass('node__title') }}>
+      <a href="{{ url }}" rel="bookmark">{{ label }}</a>
+    </h2>
+  {% endif %}
+  {{ title_suffix }}
+  {% if display_submitted %}
+    <div class="node__meta">
+      {{ author_picture }}
+      <span{{ author_attributes.addClass('node__submitted-info') }}>
+        {% trans %}
+          <span class="node__submitted-info-text">By</span> {{ author_name }} on 
+          <span class="node__submitted-date">
+            {{ date }}
+          </span>
+        {% endtrans %}
+      </span>
+      {{ metadata }}
+    </div>
+  {% endif %}
+{% endblock %}
+{% block content %}
+  {{ attach_library('conferenceplus/node-event') }}
+  {{ content|without('field_mt_evn_date', 'field_mt_evn_place') }}
+{% endblock %}

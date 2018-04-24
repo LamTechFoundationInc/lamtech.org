@@ -1,0 +1,25 @@
+{% extends "node.html.twig" %}
+{#
+/**
+ * @file
+ * Conference+'s theme implementation to display a Speaker node.
+ */
+#}
+
+{% block content %}
+  {{ attach_library('conferenceplus/node-speaker') }}
+  <div class="row content">
+    {% if content.field_mt_spn_logo|render %}
+      <div class="col-lg-4 mb-4 mb-lg-0">
+        <div class="photo-container">
+          {{ content.field_mt_spn_logo }}
+        </div>
+      </div>
+    {% endif %}
+    <div class="{{ (content.field_mt_spn_logo|render) ? 'col-lg-8' : 'col-12' }}
+    ">
+      {{ content.field_mt_spn_body }}
+    </div>
+  </div>
+  {{ content|without('field_mt_spn_logo','field_mt_spn_body') }}
+{% endblock %}
